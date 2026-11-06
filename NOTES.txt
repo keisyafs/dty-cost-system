@@ -1,0 +1,84 @@
+====================================================================
+PEDOMAN PEMAKAIAN APLIKASI & CATATAN AKUN (PROJECT UAS)
+SISTEM MANAJEMEN OPERASIONAL & PERHITUNGAN HPP BENANG DTY
+Unit Pilot Plant DTY - PT Indorama Synthetics Tbk
+====================================================================
+
+1. TAUTAN SISTEM
+--------------------------------------------------------------------
+• Link Repositori GitHub : https://github.com/keisyafs/dty-cost-system
+• Link Live Demo Online  : https://keisyafs.github.io/dty-cost-system/
+  (Dapat langsung diklik dan dicoba secara interaktif tanpa install)
+
+2. DAFTAR AKUN PENGGUNA (USER & PASSWORD)
+--------------------------------------------------------------------
+Sistem ini menggunakan Role-Based Access Control (RBAC) dengan 4 level peran:
+
+No. | Role         | Nama Pengguna       | Username    | Password    | Wewenang & Hak Akses
+----+--------------+---------------------+-------------+-------------+---------------------------------------------------
+1.  | Operator     | Rian Hidayat        | operator1   | operator123 | • Input log shift harian (jam run, downtime, kg)
+    |              |                     |             |             | • Koreksi data shift yang ditolak supervisor
+----+--------------+---------------------+-------------+-------------+---------------------------------------------------
+2.  | Operator     | Dedi Kurniawan      | operator2   | operator123 | • Input log shift harian alternatif
+----+--------------+---------------------+-------------+-------------+---------------------------------------------------
+3.  | Supervisor   | M. Faisal           | supervisor  | spv123      | • Audit log shift operator
+    |              |                     |             |             | • Menyetujui shift (tombol 'Setujui')
+    |              |                     |             |             | • Menolak shift (tombol 'Tolak' + catatan revisi)
+----+--------------+---------------------+-------------+-------------+---------------------------------------------------
+4.  | Finance      | Siti Rahmawati, S.E | finance     | finance123  | • Mengatur harga POY, Coning Oil, tarif PLN
+    |              |                     |             |             | • Mengatur beban overhead mesin (BOP)
+    |              |                     |             |             | • Finalisasi & kunci kalkulasi HPP batch
+----+--------------+---------------------+-------------+-------------+---------------------------------------------------
+5.  | Plant Manager| Ir. Hendra Wijaya   | manager     | manager123  | • Hak akses penuh (100% sistem)
+    |              |                     |             |             | • Pantau KPI eksekutif & varians biaya
+    |              |                     |             |             | • Mengelola & menambah akun pengguna baru
+
+Catatan: Pada web demo, Anda dapat berpindah akun secara instan melalui
+Role Switcher di bagian Top Bar kanan atas.
+
+3. STRUKTUR FILE REPOSITORI
+--------------------------------------------------------------------
+• Folder Project Web : Seluruh source code aplikasi (React, Vite, Tailwind)
+• File Database .sql : database.sql (Schema MySQL & data inisial lengkap)
+• Notes Pedoman      : NOTES.txt & PEDOMAN_PEMAKAIAN.md
+
+4. PANDUAN IMPORT DATABASE (MySQL / phpMyAdmin)
+--------------------------------------------------------------------
+1. Buka XAMPP / Laragon, aktifkan service Apache dan MySQL.
+2. Buka browser, akses http://localhost/phpmyadmin/
+3. Buat database baru dengan nama: dty_cost_system
+4. Klik tab "Import" di bagian atas.
+5. Klik "Choose File" dan pilih file: database.sql
+6. Gulir ke bawah dan klik tombol "Go" / "Kirim".
+7. Database selesai di-import (terdapat 5 tabel: users, master_cost_parameters,
+   production_batches, shift_logs, batch_hpp_recap).
+
+5. PANDUAN MENJALANKAN PROJECT SECARA LOKAL
+--------------------------------------------------------------------
+1. Clone repositori dari GitHub:
+   git clone https://github.com/keisyafs/dty-cost-system.git
+2. Masuk ke direktori:
+   cd dty-cost-system
+3. Pasang library/dependencies:
+   npm install
+4. Jalankan server lokal:
+   npm run dev
+5. Buka browser pada alamat: http://localhost:5173/
+
+6. ALUR PENGUJIAN / DEMO FITUR APLIKASI
+--------------------------------------------------------------------
+1. Beralih ke role "Finance":
+   - Buka menu "Master Biaya Langsung" -> cek tarif listrik PLN dan harga POY.
+   - Buka menu "Overhead & Depresiasi" -> cek tarif depresiasi garis lurus 10 thn.
+2. Beralih ke role "Operator":
+   - Buka menu "Log Shift Operasional" -> klik "+ Catat Log Shift Baru".
+   - Masukkan data timbangan -> klik Simpan (status otomatis PENDING).
+3. Beralih ke role "Supervisor":
+   - Cek shift yang berstatus PENDING -> coba tolak dengan tombol "Tolak" + revisi.
+   - Beralih ke Operator untuk perbaiki data -> kirim ulang.
+   - Supervisor klik tombol "Setujui" -> data terverifikasi untuk laporan keuangan.
+4. Beralih ke role "Manager" atau "Finance":
+   - Buka menu "Kalkulasi HPP Batch" -> tampil rincian 4 pilar biaya lengkap.
+   - Klik "Cetak / Ekspor PDF Laporan" untuk mencetak lembar rekap biaya.
+   - Klik "Kelola User" di bar atas untuk melihat manajemen karyawan.
+====================================================================
